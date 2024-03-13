@@ -1,0 +1,8 @@
+{
+  "customdata": {
+    "user_mail": "operator@email.su",
+    "user_name": "operator",
+    "user_password": "$6$rounds=4096$g...F9TTbr.",
+    "user_pubkey": "ssh-ed25519 AAAA...HqZicm operator@email.su"
+  }
+}

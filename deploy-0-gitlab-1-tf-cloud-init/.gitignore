@@ -1,0 +1,12 @@
+# ignores project secrets (tests)
+terraform/configs_tests
+
+# ignores project secrets
+terraform/protected/cloud-init_instance-data.json
+terraform/protected/protected.tfvars
+terraform/configs/cloud-init.yaml
+terraform/secrets.auto.tfvars
+
+# ignores project sensitive data
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup

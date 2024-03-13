@@ -1,0 +1,36 @@
+#cloud-config
+#
+# ---Description
+#    1. Adds custom user to the system with ssh-public-key and password
+#    2. Configures ssh service custom port
+#    3. Disables root access via ssh
+#
+# ---Requirements and Examples
+#    <YOUR_USER_LOGIN>             operator
+#    <YOUR_USER_GROUP_PRIMARY>     operator
+#    <YOUR_USER_GROUP_SECONDARY>   sudo
+#    <YOUR_USER_MKPASSWD_HASH>     $6$rounds=4096$g...F9TTbr.
+#    <YOUR_USER_SSH_PUBKEY>        ssh-ed25519 AAAA...HqZicm operator@email.su
+#    <YOUR_SSH_SERVER_CUSTOM_PORT> 911
+#
+
+#..creates custom user
+users:
+  - default
+  - name: <YOUR_USER_LOGIN>
+    gecos: Custom user
+    primary_group: <YOUR_USER_GROUP_PRIMARY>
+    groups: <YOUR_USER_GROUP_SECONDARY>
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: <YOUR_USER_MKPASSWD_HASH>
+    ssh-authorized-keys:
+      - <YOUR_USER_SSH_PUBKEY>
+
+#..configures ssh: set custom ssh-port + disables root login via ssh
+runcmd:
+  - sed -i -e '$aPort <YOUR_SSH_SERVER_CUSTOM_PORT>' /etc/ssh/sshd_config
+  - sed -i -e '$aPermitRootLogin No' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers <YOUR_USER_LOGIN>' /etc/ssh/sshd_config
+  - systemctl restart sshd
